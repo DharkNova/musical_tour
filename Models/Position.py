@@ -1,4 +1,5 @@
 from geopy.geocoders import Nominatim
+from Data.Json_Operations import Helper
 
 class position: 
     cont=0
@@ -9,20 +10,25 @@ class position:
         self.address=address
         self.coordenadas=coordenadas
 
-    def create_position(self):
+    def create_position():
         nam=input("Ingrese el nombre del lugar: ")
-        add=input("Ingrese la dirección del lugar: ")
+        add=input("Ingrese la dirección del lugar (Num, calle, ciudad, provincia, Codigo postal): ")
         geolocator=Nominatim(user_agent="Musical_Tour")
         location=geolocator.geocode(add)
         if location is not None:
             lat=location.latitude
             lon=location.longitude
         else:
-            print("Ingrese las coordenadas: ")
+            print("No se reconoce la dirección, Por favor ingrese las coordenadas...")
             lat=float(input("Ingrese latitud: "))
-            lat=float(input("Ingrese longitud: "))
-        ubi=position(nam, add, (lat,lon))
-        
+            lon=float(input("Ingrese longitud: "))
 
-    def get_position(self):
-        pass
+        return position(nam, add, (lat,lon))
+    
+    @staticmethod
+    def charge_position(item):
+        ruta="Data\\Positions.json"
+        Helper.save_in_list(ruta, item.__dict__)
+    
+    def __str__(self):
+        return f"id: {self.id}\nNombre: {self.name}\nDirección: {self.address}\nCoordenadas: {self.coordenadas}"
