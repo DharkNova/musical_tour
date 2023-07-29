@@ -1,4 +1,3 @@
-
 import json
 
 class Helper:
@@ -27,34 +26,21 @@ class Helper:
             Helper.save_file(ruta_json,List)
             
     @staticmethod
-    def delete_item(ruta_json, item):
+    def delete_item(ruta_json, item_id):
 
         List = Helper.load_file(ruta_json)
         
         if List is not None:
-            if item in List:
-                
-                List.remove(item)
-                Helper.save_file(ruta_json, List)
-            else:
-                 print("Elemento no encontrado..")
+            for item in List:
+                if item['id'] == item_id:
+                     List.remove(item)
+                     Helper.save_file(ruta_json, List)
         else:
              return None
 
-"""
-    @staticmethod
-    def modify_item(ruta_json, item_id):
-         
-         List = Helper.load_file(ruta_json)
-         if List is not None:
-            for data in List:
-                if data['id']==item_id:
-                     
+    
+                  
+                  
+
 
                 
-                Helper.save_file(ruta_json, List)
-            else:
-                 print("Elemento no encontrado..")
-         else:
-            return None
-"""

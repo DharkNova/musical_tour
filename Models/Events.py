@@ -1,10 +1,9 @@
 from Data.Json_Operations import Helper
 from datetime import datetime
-from PIL import Image
-import base64
 
 class Event:
     Cont=0
+    ruta="Data\\Events.json"
     def __init__(self, name, artist, genre,id_position, time_start, time_end, description, picture):        
         Event.Cont+=1
 
@@ -42,19 +41,33 @@ class Event:
     
     @staticmethod
     def charge_event(item):
-        ruta="Data\\Events.json"
-        Helper.save_in_list(ruta, item.__dict__)
+        Helper.save_in_list(Event.ruta, item.__dict__)
 
     @staticmethod
     def remove_Event(item):
-        ruta="Data\\Events.json"
-        Helper.delete_item(ruta, item)
+        Helper.delete_item(Event.ruta, item)
 
-#    def modify_event(self):
- #       ruta="Data\\Events.json"
-  #      Helper.modify_item(ruta, self.id)
+    @staticmethod
+    def indice_eventos():
+        eventos=Event.instancia_Lista_Even(Event.ruta)
+        return eventos
+    
+    @staticmethod
+    def Muestra_eventos(Lista):
+        for objeto in Lista:
+            Event.Muestra_evento_indice(objeto)
 
-
+    def instancia_Lista_Even(ruta_json):
+        List=Helper.load_file(ruta_json)
+        Lista=[]
+        for data in List:
+            even=Event(data['name'], data['Artist'], data['genre'], data['id_position'], data['time_start'], data['time_end'], data['description'], data['picture'])
+            Lista.append(even)
+        return Lista
+    
     def __str__(self):
         return f"id: {self.id}\nNombre: {self.name}\nArtista: {self.artist}\nGenero: {self.genre}\nposición: {self.id_position}\nTiempo inicio: {self.time_start}\nTiempo final: {self.time_end}\ndescripción: {self.description}\nimagen: {self.picture}"
         
+    def Muestra_evento_indice(item):
+        return f"Nombre: {item.name}\nArtista: {item.artist}\nGenero: {item.genre}\nLugar: {item.id_position}\n\n"
+    

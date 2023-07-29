@@ -3,6 +3,7 @@ from Data.Json_Operations import Helper
 
 class position: 
     cont=0
+    ruta="Data\\Positions.json"
     def __init__(self, name, address, coordenadas):
         position.cont+=1
         self.id=position.cont
@@ -27,8 +28,11 @@ class position:
     
     @staticmethod
     def charge_position(item):
-        ruta="Data\\Positions.json"
-        Helper.save_in_list(ruta, item.__dict__)
+        Helper.save_in_list(position.ruta, item.__dict__)
+    
+    @staticmethod
+    def remove_position(id_item):
+        Helper.delete_item(position.ruta, id_item)
     
     def __str__(self):
         return f"id: {self.id}\nNombre: {self.name}\nDirección: {self.address}\nCoordenadas: {self.coordenadas}"
