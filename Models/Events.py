@@ -39,8 +39,14 @@ class Event:
         hora_iso=datetime.isoformat(hora_fecha)
         return hora_iso
     
+    def invierte_iso(hra):
+        hrobjeto=datetime.datetime.fromisoformat(hra.replace("Z", "+00:00"))
+        hrfinal=hrobjeto.strftime("%Y-%m-%d %HH:%MM")
+        return hrfinal
+
     @staticmethod
     def charge_event(item):
+
         Helper.save_in_list(Event.ruta, item.__dict__)
 
     @staticmethod
@@ -61,7 +67,7 @@ class Event:
         List=Helper.load_file(ruta_json)
         Lista=[]
         for data in List:
-            even=Event(data['name'], data['Artist'], data['genre'], data['id_position'], data['time_start'], data['time_end'], data['description'], data['picture'])
+            even=Event(data['name'], data['artist'], data['genre'], data['id_position'], data['time_start'], data['time_end'], data['description'], data['picture'])
             Lista.append(even)
         return Lista
     

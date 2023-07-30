@@ -1,4 +1,7 @@
 
+#IMPLEMENTACION DE MAPA 
+
+
 # import tkinter
 # import tkintermapview
 # import geocoder
@@ -18,33 +21,34 @@
 
 
 
+#MODULO PARA GENERAR EVENTOS SIMULTANEAMENTE CON UBICACION
 
 
+from Models.Events import Event
+from Models.Position import position
 
-# from Models.Events import Event
-# from Models.Position import position
+def Crea_ubi_event():
+    Posi=position.create_position()
+    id=Posi.id
+    position.charge_position(Posi)
+    Posi=None
+    event=Event.create_event(id)
+    Event.charge_event(event)
+    event=None
 
-# def Crea_ubi_event():
-#     Posi=position.create_position()
-#     id=Posi.id
-#     position.charge_position(Posi)
-#     Posi=None
-#     event=Event.create_event(id)
-#     Event.charge_event(event)
-#     event=None
-
-# def Elimina_ubi_event():
-#     id=1
-#     position.remove_position(id)
-#     Event.remove_Event(id)
-
-
-# Crea_ubi_event()
-# Crea_ubi_event()
-# Elimina_ubi_event()
+def Elimina_ubi_event():
+    id=1
+    position.remove_position(id)
+    Event.remove_Event(id)
 
 
+Crea_ubi_event()
+Crea_ubi_event()
 
+#Elimina_ubi_event()
+
+
+#REGISTRO E INICIO DE SESION DE USUARIO
 
 # from Models.Users import User
 # print("Inicio sesion:\n\n")
@@ -61,3 +65,6 @@
 
 
 #---INDICE DE EVENTOS---
+
+indice=Event.indice_eventos()
+Event.Muestra_eventos(indice)
