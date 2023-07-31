@@ -27,7 +27,7 @@ class Event:
         te=input("Ingrese la hora de finalizacón del evento en formato (HH:MM): ")
         des=input("Ingrese una descripción del evento: ")
         rut=input("Ingrese el nombre del archivo imagen seguido de su formato (imagen.jpeg): ")
-        pic="Data\\"+rut
+        pic="images\\"+rut
 
         return Event(nam,art,gen,id,ti,te,des,pic)
     
@@ -39,14 +39,14 @@ class Event:
         hora_iso=datetime.isoformat(hora_fecha)
         return hora_iso
     
-    def invierte_iso(hra):
-        hrobjeto=datetime.datetime.fromisoformat(hra.replace("Z", "+00:00"))
-        hrfinal=hrobjeto.strftime("%Y-%m-%d %HH:%MM")
-        return hrfinal
+    def invierte_iso(hora_ISO):
+        hora=datetime.strptime(hora_ISO,"%Y-%m-%dT%H:%M:%S")
+        hora_final=datetime.strftime(hora,"%H:%M")
+        return hora_final
 
     @staticmethod
     def charge_event(item):
-
+        #Event.invierte_iso(item)
         Helper.save_in_list(Event.ruta, item.__dict__)
 
     @staticmethod
@@ -59,15 +59,19 @@ class Event:
         return eventos
     
     @staticmethod
-    def Muestra_eventos(Lista):
+    def Muestra_eventos(op, Lista):
         for objeto in Lista:
-            Event.Muestra_evento_indice(objeto)
-
+             if op==True:
+                muestra=Event.Muestra_evento_indice(objeto)
+                print(muestra)
+             else:
+                muestra=Event.__str__(objeto)
+                print(muestra)
     def instancia_Lista_Even(ruta_json):
         List=Helper.load_file(ruta_json)
         Lista=[]
         for data in List:
-            even=Event(data['name'], data['artist'], data['genre'], data['id_position'], data['time_start'], data['time_end'], data['description'], data['picture'])
+            even=Event(data['name'], data['artist'], data['genre'], data['id_position'], Event.invierte_iso(data['time_start']), Event.invierte_iso(data['time_end']), data['description'], data['picture'])
             Lista.append(even)
         return Lista
     

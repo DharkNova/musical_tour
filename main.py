@@ -27,23 +27,23 @@
 from Models.Events import Event
 from Models.Position import position
 
-def Crea_ubi_event():
-    Posi=position.create_position()
-    id=Posi.id
-    position.charge_position(Posi)
-    Posi=None
-    event=Event.create_event(id)
-    Event.charge_event(event)
-    event=None
+# def Crea_ubi_event():
+#     Posi=position.create_position()
+#     id=Posi.id
+#     position.charge_position(Posi)
+#     Posi=None
+#     event=Event.create_event(id)
+#     Event.charge_event(event)
+#     event=None
 
-def Elimina_ubi_event():
-    id=1
-    position.remove_position(id)
-    Event.remove_Event(id)
+# def Elimina_ubi_event():
+#     id=1
+#     position.remove_position(id)
+#     Event.remove_Event(id)
 
 
-Crea_ubi_event()
-Crea_ubi_event()
+# Crea_ubi_event()
+# Crea_ubi_event()
 
 #Elimina_ubi_event()
 
@@ -66,5 +66,18 @@ Crea_ubi_event()
 
 #---INDICE DE EVENTOS---
 
-indice=Event.indice_eventos()
-Event.Muestra_eventos(indice)
+#even1=Event("la loca", "ganzos", "rock", "1", "10:00", "11:00", "descrip1", "foto.png")
+#even2=Event("la sana", "ganzos santos", "pop", "2", "11:00", "12:00", "descrip2", "foto2.png")
+#indice=Event.indice_eventos()
+#Event.Muestra_eventos(indice)
+#Event.charge_event(even1)
+#Event.charge_event(even2)
+# Lista=Event.indice_eventos()
+# op=2
+# Event.Muestra_eventos(op , Lista)
+
+
+
+#BUSQUEDA Y FILTRADO
+
+
