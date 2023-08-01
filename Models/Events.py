@@ -46,7 +46,6 @@ class Event:
 
     @staticmethod
     def charge_event(item):
-        #Event.invierte_iso(item)
         Helper.save_in_list(Event.ruta, item.__dict__)
 
     @staticmethod

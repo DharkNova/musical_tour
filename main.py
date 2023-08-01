@@ -35,7 +35,6 @@ from Models.Position import position
 #     event=Event.create_event(id)
 #     Event.charge_event(event)
 #     event=None
-
 # def Elimina_ubi_event():
 #     id=1
 #     position.remove_position(id)
@@ -66,18 +65,25 @@ from Models.Position import position
 
 #---INDICE DE EVENTOS---
 
-#even1=Event("la loca", "ganzos", "rock", "1", "10:00", "11:00", "descrip1", "foto.png")
-#even2=Event("la sana", "ganzos santos", "pop", "2", "11:00", "12:00", "descrip2", "foto2.png")
-#indice=Event.indice_eventos()
-#Event.Muestra_eventos(indice)
-#Event.charge_event(even1)
-#Event.charge_event(even2)
+# even1=Event("la loca", "ganzos locos", "rock", "1", "10:00", "11:00", "descrip1", "foto.png")
+# even2=Event("la sana", "ganzos santos", "pop", "2", "11:00", "12:00", "descrip2", "foto2.png")
+# indice=Event.indice_eventos()
+# Event.Muestra_eventos(indice)
+# Event.charge_event(even1)
+# Event.charge_event(even2)
 # Lista=Event.indice_eventos()
 # op=2
 # Event.Muestra_eventos(op , Lista)
 
 
-
 #BUSQUEDA Y FILTRADO
 
+from Models.search_and_filter import Search
 
+Lista=Search.Busqueda("ganzos santos")
+#print("desde el main")
+if Lista is not None:
+   for i in Lista:
+      print(i)
+else: 
+   print("Vacío")

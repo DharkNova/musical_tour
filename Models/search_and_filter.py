@@ -1,88 +1,80 @@
 from Models.Events import Event
 
 class Search:
-    
+
     All_Events=Event.indice_eventos()
 
     def Buscador(Nombre, Artista, Genero):
-        resultados=[]
-        if (Nombre is None and Artista is None and Genero is None):
-            return "No se asignó nada para buscar..."
+        resultados=set()
+        for Eventos in Search.All_Events:
+            if Nombre is not None:
+                if Eventos.name==Nombre:
+                    resultados.add(Eventos)
+            if Artista is not None:
+                if Eventos.artist==Artista:
+                    resultados.add(Eventos)
+            if Genero is not None:
+                if Eventos.genre==Genero:
+                    resultados.add(Eventos)
+                    
+        if len(resultados)==0:
+           print("No se encontró ningún evento")
         else:
-            for event in Search.All_Events:
-                if (Nombre is None or event.name.lower()==Nombre) and \
-                (Artista is None or event.artist.lower()==Artista) and \
-                (Genero is None or event.genre.lower()==Genero):
-                    resultados.append(event)
+            return resultados
 
-        return resultados
-
-    def Ordena_busqueda(para1=None ,para2=None, para3=None):
-
-        if Search.determina_nombre(para1)==None:
-            if Search.determina_artista(para1)==None:
-                if Search.determina_genero(para1)==None:
-                    Genero=Search.determina_genero(para1)
-            else:
-                Artista=Search.determina_artista(para1)
-        else:
+    @staticmethod
+    def Busqueda(para1=None ,para2=None, para3=None):
+        if para1 is not None:
             Nombre=Search.determina_nombre(para1)
+            Artista=Search.determina_artista(para1)
+            Genero=Search.determina_genero(para1)
 
-
-        if Search.determina_nombre(para2)==None:
-            if Search.determina_artista(para2)==None:
-                if Search.determina_genero(para2)==None:
-                    print("El segundo valor ingresado no es válido.")
-                else:
-                    Genero=Search.determina_genero(para2)
-            else:
+        if para2 is not None:
+            if Nombre is None:
+                Nombre=Search.determina_nombre(para2)
+            if Artista is None:
                 Artista=Search.determina_artista(para2)
-        else:
-            Nombre=Search.determina_nombre(para2)
-
-
-        if Search.determina_nombre(para3)==None:
-            if Search.determina_artista(para3)==None:
-                if Search.determina_genero(para3)==None:
-                    print("El tercer valor ingresado no es válido.")
-                else:
-                    Genero=Search.determina_genero(para3)
-            else:
+            if Genero is None:
+                Genero=Search.determina_genero(para2)
+            
+        if para3 is not None:
+            if Nombre is None:
+                Nombre=Search.determina_nombre(para3)
+            if Artista is None:
                 Artista=Search.determina_artista(para3)
+            if Genero is None:
+                Genero=Search.determina_genero(para3)
+
+        return Search.Buscador(Nombre, Artista, Genero)
+
+    @staticmethod
+    def determina_nombre(parametro):
+        b=False
+        for objeto in Search.All_Events:
+            if objeto.name.lower()==parametro.lower():
+                b=True
+        if b==False:
+            return None
         else:
-            Nombre=Search.determina_nombre(para3)
-        
-
-    def determina_nombre(self, parametro):
-        for objeto in self.lista:
-            LisNombres=str.lower(objeto['name'])
-        paraNom=str.lower(parametro)
-        Nombre=None
-        for nombre in LisNombres:
-            if nombre==paraNom:
-                Nombre=paraNom
-        return Nombre
-            
-
-    def determina_artista(self, parametro):
-        for objeto in self.lista:
-            Lisartistas=str.lower(objeto['artist'])
-        paraArt=str.lower(parametro)
-        Artista=None
-        for artista in Lisartistas:
-            if artista==paraArt:
-                Artista=paraArt
-        return Artista
-            
-
-    def determina_genero(self, parametro):
-        for objeto in self.lista:
-            Lisgenero=str.lower(objeto['genre'])
-        paraGen=str.lower(parametro)
-        Genero=None
-        for genero in Lisgenero:
-            if genero==paraGen:
-                Genero=paraGen
-        return Genero
-    
+            return parametro
+    @staticmethod
+    def determina_artista(parametro):
+        b=False
+        for objeto in Search.All_Events:
+            if objeto.artist.lower()==parametro.lower():
+                b=True
+        if b==False:
+            return None
+        else:
+            return parametro
+    @staticmethod
+    def determina_genero(parametro):
+        b=False
+        for objeto in Search.All_Events:
+            if objeto.genre.lower()==parametro.lower():
+                b=True
+        if b==False:
+            return None
+        else:
+            return parametro
 
