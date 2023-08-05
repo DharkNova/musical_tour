@@ -13,7 +13,8 @@ class User:
         self.email=email
         self.password=password
         self.eventos_asistidos=[]
-    
+
+    @staticmethod
     def sign_up():
         band=False
         while band!=True:
@@ -34,16 +35,32 @@ class User:
         sur=input("Ingrese su apellido: ")
         user=User(nam,sur,email,password)
         User.charge_user(user)
+        print("Usuario Registrado!!")
         
-    
+    @staticmethod
     def sign_in():
-        email=input("Ingrese el correo: ")
-        if User.validation_email(email)==True:
-            password=input("Ingrese la contraseña: ")
-            id_user=User.Valida_User(User.ruta, email, password)
-            if id_user is not None:
-                user=User.instancia_User(User.ruta, id_user)
-                return user
+        band=False
+        Regi=False
+        while band==False and Regi==False:
+            email=input("Ingrese el correo: ")
+            if User.validation_email(email)==True:
+                password=input("Ingrese la contraseña: ")
+                id_user=User.Valida_User(User.ruta, email, password)
+                if id_user is not None:
+                    user=User.instancia_User(User.ruta, id_user)
+                    return user
+                else:
+                    print("Si desea reintentarlo ingrese 1 o si desea registrarse ingrese 0.")
+                    Op=input("Ingrese su opción: ")
+                    if Op == "0":
+                        Regi=True
+                        User.sign_up()
+                    elif Op!=1:
+                        band=True
+                        
+            else:
+                print("Correo inválido.")           
+        
         
     @staticmethod
     def Valida_User(ruta_json, email_id, password_id):
@@ -52,12 +69,13 @@ class User:
             b=False
             for data in List:
                 if data['email']==email_id:
+                    b=True
                     if data['password']==password_id:
                         return data['id']
                     else:
                         print("La contraseña ingresada no es válida..")
-            if b!=True:
-                print("El correo ingresado es equivocado o aún no se ha registrado..")
+            if b is False:
+                print("El correo ingresado es incorrecto o aún no se ha registrado..")
                 return None
             
     @staticmethod
@@ -83,7 +101,7 @@ class User:
         Helper.delete_item(User.ruta, item)
 
     def __str__(self):
-        return f"id: {self.id}\nNombre: {self.name}\nArtista: {self.artist}\nGenero: {self.genre}\nposición: {self.id_position}\nTiempo inicio: {self.time_start}\nTiempo final: {self.time_end}\ndescripción: {self.description}\nimagen: {self.picture}"
+        return f"id: {self.id}\nNombre: {self.name}\nApellido: {self.surname}\nCorreo: {self.email}\nContraseña: {self.password}"
         
 
 

@@ -54,8 +54,7 @@ class Event:
 
     @staticmethod
     def indice_eventos():
-        eventos=Event.instancia_Lista_Even(Event.ruta)
-        return eventos
+        return Event.instancia_Lista_Even(Event.ruta)
     
     @staticmethod
     def Muestra_eventos(op, Lista):
