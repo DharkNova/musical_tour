@@ -87,4 +87,4 @@
 
 from Views.view_inicio import Vista_inicio
 from Views.view_Mapa_ruta import vista_mapa
-vista_mapa()
+Vista_inicio()

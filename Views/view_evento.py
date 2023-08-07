@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import Util.generic as utl
 from Controllers.Controller_evento import control_evento
-class vista_evento(tk.Frame):
+class vista_evento():
 
     def __init__(self, objeto):
         self.window=tk.Tk()
@@ -41,10 +41,10 @@ class vista_evento(tk.Frame):
         self.hora_fin=tk.Label(self.frame_evento,text="Hora de finalización: "+objeto.time_end, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5")
         self.hora_fin.pack(side="top", anchor="nw",padx=10, pady=5)
 
-        # imagen=utl.redefine_imagen(".\\images\\"+ objeto.picture, (250,300))
-        # imaevento=tk.Label(self.frame_evento,image=imagen, bg="#e5e5e5")
-        # imaevento.image=imagen
-        # imaevento.place(x=630,y=10, relwidth=0.3, relheight=0.5)
+        imagen=utl.redefine_imagen(".\\images\\"+ objeto.picture, (250,300))
+        imaevento=tk.Label(self.frame_evento,image=imagen, bg="#e5e5e5")
+        imaevento.image=imagen
+        imaevento.place(x=630,y=10, relwidth=0.3, relheight=0.5)
 
         self.frame_panel_reseñas=tk.Frame(self.window, bd=0,width=400,relief=tk.SOLID, bg="#2f242c")
         self.frame_panel_reseñas.pack(side="right",fill=tk.BOTH)
