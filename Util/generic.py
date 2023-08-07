@@ -1,7 +1,8 @@
 from PIL import ImageTk, Image
 
 def redefine_imagen(path, size):
-    return ImageTk.PhotoImage(Image.open(path).resize(size, Image.ADAPTIVE)) 
+    return ImageTk.PhotoImage(Image.open(path).resize(size)) 
+    
 
 def Centre_window(window, App_ancho, App_largo):
     win_ancho=window.winfo_screenwidth()

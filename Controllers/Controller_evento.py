@@ -1,3 +1,9 @@
-
+import tkinter as tk
 class control_evento:
-    pass
+
+    def __init__(self):
+        pass
+
+    
+    def Volver():
+        pass
