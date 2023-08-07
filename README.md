@@ -1,2 +1,2 @@
 # musical_tour
-Una aplicacion que se focaliza en brindar eventos y enrutar al usuario a dichos eventos 
+Una aplicacion que se enfoca en brindar ubicaciones de eventos y enrutar en un mapa dichos eventos para el usuario 
