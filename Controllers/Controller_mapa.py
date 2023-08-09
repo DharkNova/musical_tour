@@ -21,19 +21,22 @@ class control_mapa:
             pass
 
                 
-        def agregar_a_ruta(self, variable):
-            if isinstance(variable, tuple):
-                id_ubi=self.compara_coords(variable)
-            else:
-                id_ubi=variable
-
+        def agregar_a_ruta(self, id_ubi):
             for ubi in self.ubicaciones:
                 if ubi.id==id_ubi:
                     ubicacion=ubi
                     break
             self.app.ruta.destinations.append(id_ubi)
-            self.agrega_ruta_vista(ubicacion)
+            self.app.agrega_ruta_vista(ubicacion.coordenadas)
+            if self.app.vista_mapa.boton_fin_ruta.state=="normal":
+                self.app.vista_mapa.agregar_event_ini(ubicacion.coordenadas)
             pass
+        def quita_ruta(self,coords):
+            id_ubi=self.compara_cords(coords)
+            for id in self.app.ruta.destinations:
+                if id==id_ubi:
+                    self.app.ruta.destinations.remove(id)
+
                     
 
 

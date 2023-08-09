@@ -27,14 +27,17 @@ class vista_mapa:
         boton_inicio=tk.Button(frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
         boton_inicio.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
+        self.boton_del_ubi=tk.Button(frame_supbar, text="Quitar del recorrido",state="disabled", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        self.boton_del_ubi.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
+
         boton_cerrar_sesion=tk.Button(frame_supbar, text="Cerrar sesion", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=10, padx=10)
         boton_cerrar_sesion.pack(side="right",expand=tk.NO,padx=10, fill=tk.NONE)  
 
-        boton_ini_ruta=tk.Button(frame_supbar, text="Iniciar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        boton_ini_ruta=tk.Button(frame_supbar, text="Iniciar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10, command=self.iniciar_ruta)
         boton_ini_ruta.pack(side="right",expand=tk.NO,padx=50, fill=tk.NONE)
 
-        boton_fin_ruta=tk.Button(frame_supbar, text="Finalizar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
-        boton_fin_ruta.pack(side="right",expand=tk.NO,padx=50, fill=tk.NONE)
+        self.boton_fin_ruta=tk.Button(frame_supbar, text="Finalizar Ruta", font=("Roboto, 13"),state="disabled", fg="#2f242c", bg="#e6d884", width=15, padx=10, )
+        self.boton_fin_ruta.pack(side="right",expand=tk.NO,padx=50, fill=tk.NONE)
 
       
 
@@ -58,7 +61,7 @@ class vista_mapa:
         scroll_list=tk.Scrollbar(frame_lista_rutas)
         scroll_list.pack(side="right", fill=tk.Y)
 
-        self.list_rutas=tk.Listbox(frame_lista_rutas,height=600, yscrollcommand=scroll_list.set, activestyle=tk.NONE, bd=0, relief=tk.SOLID, fg="#2f242c", bg="red")
+        self.list_rutas=tk.Listbox(frame_lista_rutas,height=600, yscrollcommand=scroll_list.set, activestyle=tk.NONE, bd=0, relief=tk.SOLID, fg="#2f242c", bg="#e5e5e5")
         self.list_rutas.pack(expand=tk.YES, fill=tk.BOTH)
         scroll_list.config(command=self.list_rutas.yview)
 
@@ -67,32 +70,22 @@ class vista_mapa:
         frame_mapa.pack(side="right",expand=tk.YES, fill=tk.BOTH)
 
         
-        map_widget = tkintermapview.TkinterMapView(frame_mapa, width=800, height=600, corner_radius=0)
-        map_widget.pack(anchor="center", padx=20, pady=20)
+        self.map_widget = tkintermapview.TkinterMapView(frame_mapa, width=800, height=600, corner_radius=0)
+        self.map_widget.pack(anchor="center", padx=20, pady=20)
         coordenadas=geocoder.ip("me")
         latitud=coordenadas.lat
         longitud=coordenadas.lng
-        map_widget.set_position(latitud,longitud) 
-        map_widget.set_zoom(12)
+        self.map_widget.set_position(latitud,longitud) 
+        self.map_widget.set_zoom(12)
 
-        marker1=map_widget.set_marker(-24.7763368, -65.4460768)
-        marker2=map_widget.set_marker(-24.7951385, -65.4030448)
-        marker3=map_widget.set_marker(-24.7622526, -65.3977041)
-        marker4=map_widget.set_marker(-24.7828792, -65.4041186)
-        marker5=map_widget.set_marker(-24.7327322, -65.4165092)
-        lista=[marker1.position, marker2.position, marker3.position, marker4.position, marker5.position]
-        map_widget.add_right_click_menu_command(label="Detalles", command=self.Mostrar_detalles, pass_coords=True)
+        self.markerMe=self.map_widget.set_marker(-24.7967267, -65.4175023, text="Me", marker_color_circle="#a1a892", marker_color_outside="#2f242c", text_color="white")
+        marker1=self.map_widget.set_marker(-24.7763368, -65.4460768)
+        marker2=self.map_widget.set_marker(-24.7951385, -65.4030448)
+        marker3=self.map_widget.set_marker(-24.7622526, -65.3977041)
+        marker4=self.map_widget.set_marker(-24.7828792, -65.4041186)
+        marker5=self.map_widget.set_marker(-24.7327322, -65.4165092)
 
-
-        # set a path
-        path_1 = map_widget.set_path(lista)
-
-        # methods
-        
-        # path_1.add_position(position)
-        # path_1.remove_position(position)
-        # path_1.delete()
-
+        self.corredor=None
 
         self.window.mainloop()
         
@@ -104,6 +97,33 @@ class vista_mapa:
         self.controller.abre_evento(evento)
         pass
 
-    def Agregar_ruta(self, coords):
-        
-        pass
+    def iniciar_ruta(self):
+        if self.boton_fin_ruta.state=="disabled" and self.list_rutas.curselection():
+            self.boton_fin_ruta.state="normal"
+            self.boton_del_ubi.state="normal"
+            elementos_box=list(self.list_rutas.get(0, tk.END))
+            lista=[self.markerMe]
+            for i in elementos_box:
+                lista.append(i)
+            recorrido=self.map_widget.set_path(lista)
+            self.corredor=recorrido
+        elif not self.list_rutas.curselection():
+            messagebox.showerror(title="Error", message="La lista se encuentra vacía, por favor seleccione uno de los eventos que hay en mapa y dentro de los detalles añada el evento a la ruta")
+        else:
+            messagebox.showinfo(message="El recorrido ya está en ejecución")
+
+    def agrega_ruta_vista(self, coords):
+        self.list_rutas.insert(tk.END, coords)
+
+    def agregar_event_ini(self, coords):
+        self.corredor.add_position(coords)
+
+    def eliminar_ruta(self):
+        eleccion=self.list_rutas.get()
+        self.controller.quita_ruta(eleccion)
+        index=self.list_rutas.curselection()
+        self.corredor.remove_position(eleccion)
+        self.list_rutas.delete(index)
+
+
+
