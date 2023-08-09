@@ -94,6 +94,9 @@ class User:
         else:
             return False
 
+    def agrega_historial(self, id):
+        self.eventos_asistidos.append(id)
+        
     def charge_user(item):
         Helper.save_in_list(User.ruta, item.__dict__)
 

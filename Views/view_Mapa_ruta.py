@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.font import BOLD
 from Controllers.Controller_mapa import control_mapa
-import Util.generic as utl
+import Util.generic as utl     
+import tkintermapview
+import geocoder
 class vista_mapa:
 
     def __init__(self, evento=None):
@@ -18,97 +20,90 @@ class vista_mapa:
         frame_supbar=tk.Frame(self.window, bd=0, height=40, relief=tk.SOLID, padx=10, pady=10, bg="#2f242c")
         frame_supbar.pack(side="top", expand=tk.NO, fill=tk.X)
 
+        #botones
         boton_volver=tk.Button(frame_supbar, text="Volver", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
         boton_volver.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
+        
+        boton_inicio=tk.Button(frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
+        boton_inicio.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        frame_rutas=tk.Frame(self.window, bd=0, width=400, relief=tk.SOLID,bg="#2f242c")
+        boton_cerrar_sesion=tk.Button(frame_supbar, text="Cerrar sesion", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=10, padx=10)
+        boton_cerrar_sesion.pack(side="right",expand=tk.NO,padx=10, fill=tk.NONE)  
+
+        boton_ini_ruta=tk.Button(frame_supbar, text="Iniciar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        boton_ini_ruta.pack(side="right",expand=tk.NO,padx=50, fill=tk.NONE)
+
+        boton_fin_ruta=tk.Button(frame_supbar, text="Finalizar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        boton_fin_ruta.pack(side="right",expand=tk.NO,padx=50, fill=tk.NONE)
+
+      
+
+        #ventana: rutas y mapa
+        frame_rutas=tk.Frame(self.window, bd=10, width=400, relief=tk.SOLID,bg="#e5e5e5")
         frame_rutas.pack(side="left", anchor="w",expand=tk.YES, fill=tk.Y)
 
-        # frame_evento=tk.Frame(self.window,bd=0,width=600, relief=tk.SOLID,bg="#e5e5e5")
-        # frame_evento.pack(side="left",expand=tk.YES, fill=tk.BOTH)
-        # frame_evento.pack_propagate(0)
-        
-        # titulo=tk.Label(frame_evento, text=self.evento.name, font=("Roboto, 25"), fg="#2f242c", bg="#e5e5e5")
-        # titulo.pack(side="top", anchor="nw",padx=240, pady=20)
+        frame_delete_clean_ruta=tk.Frame(frame_rutas, bd=10, width=400, height=50,relief=tk.SOLID,bg="#a1a892")
+        frame_delete_clean_ruta.pack(side="top",anchor="n",expand=tk.YES, fill=tk.X)
 
-        # descripcion=tk.Label(frame_evento, text="Descripcion: "+self.evento.description, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5", wraplength=600, justify=tk.LEFT)
-        # descripcion.pack(side="top", anchor="nw",padx=10, pady=5)
+        boton_elimina_ruta=tk.Button(frame_delete_clean_ruta, text="Eliminar Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        boton_elimina_ruta.pack(side="right",expand=tk.NO,padx=50,pady=10, fill=tk.NONE)
 
-        # artista=tk.Label(frame_evento, text="Artista: "+self.evento.artist, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5",wraplength=630)
-        # artista.pack(side="top", anchor="nw",padx=10, pady=5)
+        boton_elimina_todo=tk.Button(frame_delete_clean_ruta, text="Eliminar Todo", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=15, padx=10)
+        boton_elimina_todo.pack(side="right",expand=tk.NO,padx=50,pady=10, fill=tk.NONE)
 
-        # genero=tk.Label(frame_evento, text="Genero: "+self.evento.genre, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5")
-        # genero.pack(side="top", anchor="nw",padx=10, pady=5)
+        frame_lista_rutas=tk.Frame(frame_rutas, bd=0, height=473, relief=tk.SOLID)
+        frame_lista_rutas.pack(side="bottom", expand=tk.YES, fill=tk.BOTH)
 
-        # hora_inicio=tk.Label(frame_evento, text="Hora de inicio: "+self.evento.time_start, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5")
-        # hora_inicio.pack(side="top", anchor="nw",padx=10, pady=5)
+        #lista de ruta
+        scroll_list=tk.Scrollbar(frame_lista_rutas)
+        scroll_list.pack(side="right", fill=tk.Y)
 
-        # hora_fin=tk.Label(frame_evento, text="Hora de finalización: "+self.evento.time_end, font=("Opensans, 18"), fg="#2f242c", bg="#e5e5e5")
-        # hora_fin.pack(side="top", anchor="nw",padx=10, pady=5)
+        self.list_rutas=tk.Listbox(frame_lista_rutas,height=600, yscrollcommand=scroll_list.set, activestyle=tk.NONE, bd=0, relief=tk.SOLID, fg="#2f242c", bg="red")
+        self.list_rutas.pack(expand=tk.YES, fill=tk.BOTH)
+        scroll_list.config(command=self.list_rutas.yview)
 
 
-        # imagen=utl.redefine_imagen(".\\images\\"+self.evento.picture, (250,300)) 
-        # imaevento=tk.Label(frame_evento, image=imagen, bg="#e5e5e5")
-        # imaevento.image=imagen
-        # imaevento.place(x=630,y=10, relwidth=0.3, relheight=0.5)
-
-        # frame_panel_reseñas=tk.Frame(self.window, bd=0,width=400,relief=tk.SOLID, bg="#2f242c")
-        # frame_panel_reseñas.pack(side="right",fill=tk.BOTH)
-        # frame_panel_reseñas.pack_propagate(0)
-        # frame_reseñas=tk.Frame(frame_panel_reseñas, bd=0, width=300, height=350, relief=tk.SOLID, bg="#2f242c")
-        # frame_reseñas.pack(side="top")
-        # scroll_bar=tk.Scrollbar(frame_reseñas)
-        # scroll_bar.pack(side=tk.RIGHT, fill=tk.Y)
-        # canvas=tk.Canvas(frame_reseñas, yscrollcommand=scroll_bar.set,height=300,bg="#2f242c")
-        # canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        # scroll_bar.config(command=canvas.yview)
-
-        # frame_comentador=tk.Frame(frame_panel_reseñas, bd=0,relief=tk.SOLID, bg="#2f242c")
-        # frame_comentador.pack(expand=tk.YES, fill=tk.BOTH)
-
-        # frame_botones_inf=tk.Frame(frame_comentador,bd=0, relief=tk.SOLID, bg="#2f242c")
-        # frame_botones_inf.pack(expand=tk.YES, fill=tk.BOTH)
-
-        # frame_botones_sup=tk.Frame(frame_comentador,bd=0, relief=tk.SOLID, bg="#2f242c")
-        # frame_botones_sup.pack(expand=tk.YES, fill=tk.BOTH)
-
-        # entra_comentario=tk.Text(frame_comentador, width=50, height=3, font=("Opensans, 12"), fg="#2f242c")
-        # entra_comentario.pack(side="bottom", anchor="sw", padx=10,pady=5)
-        # boton_comentar=tk.Button(frame_comentador, text="Comentar", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
-        # boton_comentar.pack(side="bottom",anchor="se",expand=tk.NO,padx=10, fill=tk.NONE)
+        frame_mapa=tk.Frame(self.window, bd=10,width=900, relief=tk.SOLID, bg="#2f242c")
+        frame_mapa.pack(side="right",expand=tk.YES, fill=tk.BOTH)
 
         
-        # valora_label=tk.Label(frame_botones_inf, text="Valoracion:",font=("Roboto, 12"),width=8,height=1, fg="#e5e5e5", bg="#2f242c")
-        # valora_label.pack(side="left", anchor="center",padx=10, pady=10)
+        map_widget = tkintermapview.TkinterMapView(frame_mapa, width=800, height=600, corner_radius=0)
+        map_widget.pack(anchor="center", padx=20, pady=20)
+        coordenadas=geocoder.ip("me")
+        latitud=coordenadas.lat
+        longitud=coordenadas.lng
+        map_widget.set_position(latitud,longitud) 
+        map_widget.set_zoom(12)
+
+        marker1=map_widget.set_marker(-24.7763368, -65.4460768)
+        marker2=map_widget.set_marker(-24.7951385, -65.4030448)
+        marker3=map_widget.set_marker(-24.7622526, -65.3977041)
+        marker4=map_widget.set_marker(-24.7828792, -65.4041186)
+        marker5=map_widget.set_marker(-24.7327322, -65.4165092)
+        lista=[marker1.position, marker2.position, marker3.position, marker4.position, marker5.position]
+        map_widget.add_right_click_menu_command(label="Detalles", command=self.Mostrar_detalles, pass_coords=True)
+
+
+        # set a path
+        path_1 = map_widget.set_path(lista)
+
+        # methods
         
-        # var= tk.StringVar() 
-        # valoracion = ttk.Combobox(frame_botones_inf,values=[chr(9733),(chr(9733),chr(9733)),(chr(9733),chr(9733),chr(9733)),(chr(9733),chr(9733),chr(9733),chr(9733)),(chr(9733),chr(9733),chr(9733),chr(9733),chr(9733))],state="readonly",textvariable=var, width= 43, height=10)
-        # valoracion.configure(background="#e6d884", foreground="#2f242c")
-        # valoracion.set("Valoración de evento")
-        # #valoracion.bind("<<ComboboxSelected>>", self.combobox_on_select)
-        # valoracion.pack(side="left", anchor="center", padx=10, pady=10)
+        # path_1.add_position(position)
+        # path_1.remove_position(position)
+        # path_1.delete()
 
 
-
-        # animo_label=tk.Label(frame_botones_sup, text="Animo:",font=("Roboto, 12"),width=4,height=1, fg="#e5e5e5", bg="#2f242c",padx=5)
-        # animo_label.pack(side="left",anchor="center",padx=10, pady=10)
-
-        # vara= tk.StringVar() 
-        # animo = ttk.Combobox(frame_botones_sup,values=["Bueno","Neutral","Malo"],state="readonly",textvariable=vara, width= 43, height=10)
-        # animo.configure(background="#e6d884", foreground="#2f242c")
-        # animo.set("Animo del comentario")
-        # #valoracion.bind("<<ComboboxSelected>>", self.combobox_on_select)
-        # animo.pack(side="right", anchor="center", padx=10, pady=20)
-
-
-
-        
-
-        # #frame_inferior=tk.Frame(frame_ventana, bd=0, relief=tk.SOLID, bg="brown")
-        # #frame_inferior.pack(side="bottom", expand=tk.YES, fill=tk.BOTH)
-
-        # #(frame_ventana, text=evento.name, font=("Roboto, 18"), fg="#2f242c", bg="#a1a892")
-
-        
         self.window.mainloop()
         
+
+    def Mostrar_detalles(self, marcador):
+        coords, texto=marcador
+        id_coords=self.controller.compara_coords(coords)
+        evento=self.controller.compara_ids(id_coords)
+        self.controller.abre_evento(evento)
+        pass
+
+    def Agregar_ruta(self, coords):
+        
+        pass

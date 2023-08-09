@@ -1,21 +1,9 @@
 #IMPLEMENTACION DE MAPA
 
 
-# import tkinter
-# import tkintermapview
-# import geocoder
 
-# root_tk = tkinter.Tk()
-# root_tk.geometry(f"{800}x{600}")
-# root_tk.title("map_view_example.py")
 
-# map_widget = tkintermapview.TkinterMapView(root_tk, width=800, height=600, corner_radius=0)
-# map_widget.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
-# coordenadas=geocoder.ip("me")
-# latitud=coordenadas.lat
-# longitud=coordenadas.lng
-# map_widget.set_position(latitud,longitud)  # Paris, France
-# map_widget.set_zoom(12)
+
 # root_tk.mainloop()
 
 
@@ -61,9 +49,9 @@
 
 
 #---INDICE DE EVENTOS---
-#from Models.Events import Event
+from Models.Events import Event
 # even1=Event("pool party", "david guetta", "electronic House", "1", "21:00", "00:00", "La mejor fiesta en piscina del mundo, con el mejor artista", "consoladj1.jpg")
-# even2=Event("festival de rock", "Artistas varios", "rock", "2", "11:00", "12:00", "El festival de rock que tanto estabas buscando", "festival_rock.jpg")
+even2=Event("festival de rock", "Artistas varios", "rock", "2", "11:00", "12:00", "El festival de rock que tanto estabas buscando", "imagen.jpeg")
 #even3=Event("Concierto estelar de los rolling stones", "rolling stones", "rock", "3", "01:00", "05:00","Uno de los conciertos más importantes del mundo del rock", "rolling.jpeg")
 # Event.charge_event(even1)
 # Event.charge_event(even2)
@@ -86,5 +74,8 @@
 
 
 from Views.view_inicio import Vista_inicio
+from Views.view_evento import vista_evento
 from Views.view_Mapa_ruta import vista_mapa
-Vista_inicio()
+# Vista_inicio()
+# vista_evento(even2)
+vista_mapa( )

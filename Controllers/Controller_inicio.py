@@ -1,15 +1,35 @@
 from Models.Events import Event
-from Views.view_evento import vista_evento
-from tkinter import messagebox
 
 class Control_inicio:
-    def __init__(self):
-        self.vista_evento=vista_evento
+    def __init__(self, list_eventos=None, list_event_asist=None):
+        pass
+        #self.vista_evento=vista_evento
+        #self.eventos=list_eventos
+        #self.asistidos=list_event_asist
     def obtiene_data(self):
-        return Event.indice_eventos()
-    def cambia_evento(self, objeto): 
-         vista_evento(objeto)
-         
+        pass
+        #return self.eventos
+
+    def obtiene_asistidos(self):
+        # Eventos=self.eventos
+        # indices=self.asistidos
+        # lista=[]
+        # for indice in indices:
+        #     for evento in Eventos:
+        #         if indice==evento.id:
+        #             lista.append(evento)
+        # return lista
+        pass
+
+    def cambia_evento(self, objeto):
+        pass
+        #self.app.vista_evento(objeto)
+        
+    def abrir_mapa():
+        pass
+
+    def cerrar_sesion():
+        pass
          
 
 
