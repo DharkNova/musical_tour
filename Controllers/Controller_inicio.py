@@ -1,8 +1,8 @@
-from Models.Events import Event
-
+#list_eventos y list_event_asist vienen del main
 class Control_inicio:
-    def __init__(self, list_eventos=None, list_event_asist=None):
+    def __init__(self,app, list_eventos=None, list_event_asist=None):
         pass
+        #self.app=app
         #self.vista_evento=vista_evento
         #self.eventos=list_eventos
         #self.asistidos=list_event_asist
@@ -25,10 +25,15 @@ class Control_inicio:
         pass
         #self.app.vista_evento(objeto, band)
         
-    def abrir_mapa():
+    def abrir_mapa(self):
+        #self.app.vista_mapa()
         pass
 
-    def cerrar_sesion():
+    def abrir_buscador(self):
+        #self.app.vista_busca()
+        pass
+
+    def cerrar_sesion(self):
         pass
          
 

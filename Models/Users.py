@@ -1,6 +1,7 @@
 
 from Data.Json_Operations import Helper
 import re
+from tkinter import messagebox
 
 class User:
     Cont=0
@@ -15,51 +16,38 @@ class User:
         self.eventos_asistidos=[]
 
     @staticmethod
-    def sign_up():
-        band=False
-        while band!=True:
-            email=input("Ingrese su correo electronico: ")
-            if User.validation_email(email)==True:
-                band=True
+    def sign_up(self, correo, contra, nombre, apellido):
+        email=correo
+        if User.validation_email(email)==True:
+            password=contra
+            nam=nombre
+            sur=apellido
+            if User.valida_nombre(nam)==True and User.valida_nombre(sur)==True:
+                user=User(nam,sur,email,password)
+                User.charge_user(user)
+                messagebox.showinfo(title="Informe", message="El usuario se a registrado con exito")
+                return True
+                
             else:
-                print("Correo invalido.")
-        password=input("Ingrese su contraseña: ")
-        band=False
-        while band!=True:
-            contra=input("Ingrese nuevamente su contraseña: ")
-            if contra==password:
-                band=True
-            else:
-                print("Las contraseñas no coinciden: ")
-        nam=input("Ingrese su nombre: ")
-        sur=input("Ingrese su apellido: ")
-        user=User(nam,sur,email,password)
-        User.charge_user(user)
-        print("Usuario Registrado!!")
-        
+                messagebox.showerror(title="Error", message="El nombre o apellido es incorrecto, solo se permiten caracteres alfabeticos")
+                return None
+        else:
+            messagebox.showerror(title="Error", message="El Correo ingresado es invalido")
+            return None
+
     @staticmethod
-    def sign_in():
-        band=False
-        Regi=False
-        while band==False and Regi==False:
-            email=input("Ingrese el correo: ")
-            if User.validation_email(email)==True:
-                password=input("Ingrese la contraseña: ")
-                id_user=User.Valida_User(User.ruta, email, password)
-                if id_user is not None:
-                    user=User.instancia_User(User.ruta, id_user)
-                    return user
-                else:
-                    print("Si desea reintentarlo ingrese 1 o si desea registrarse ingrese 0.")
-                    Op=input("Ingrese su opción: ")
-                    if Op == "0":
-                        Regi=True
-                        User.sign_up()
-                    elif Op!=1:
-                        band=True
-                        
+    def sign_in(self, correo, contra):
+        email=correo
+        password=contra
+        if User.validation_email(email)==True:
+            id_user=User.Valida_User(User.ruta, email, password)
+            if id_user is not None:
+                user=User.instancia_User(User.ruta, id_user)
+                return user
             else:
-                print("Correo inválido.")           
+                return None
+        else: 
+            messagebox.showerror(title="Error", message="El Correo ingresado es incorrecto")          
         
         
     @staticmethod
@@ -73,9 +61,10 @@ class User:
                     if data['password']==password_id:
                         return data['id']
                     else:
-                        print("La contraseña ingresada no es válida..")
+                        messagebox.showerror(title="Error", message="Contraseña Incorrecta")
+                        return None        
             if b is False:
-                print("El correo ingresado es incorrecto o aún no se ha registrado..")
+                messagebox.showerror(title="Error", message="El usuario No se encuentra registrado")
                 return None
             
     @staticmethod
@@ -103,6 +92,13 @@ class User:
     def remove_user(item):
         Helper.delete_item(User.ruta, item)
 
+    def valida_nombre(self, ingreso):
+        patron=re.compile("[a-zA-ZáéíóúñÁÉÍÓÚÑüÜ\s]+$")
+        if patron.match(ingreso):
+            return True
+        else:
+            return False
+        
     def __str__(self):
         return f"id: {self.id}\nNombre: {self.name}\nApellido: {self.surname}\nCorreo: {self.email}\nContraseña: {self.password}"
         

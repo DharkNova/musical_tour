@@ -77,9 +77,9 @@ from Views.view_inicio import Vista_inicio
 from Views.view_evento import vista_evento
 from Views.view_Mapa_ruta import vista_mapa
 from Views.view_busqueda_filtrado import busca_filtra
-# # Vista_inicio()
-# # vista_evento(even2)
-# #vista_mapa( )
-busca_filtra()
+
+class main:
+    Vista_inicio()        
+
 
 

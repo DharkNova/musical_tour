@@ -1,16 +1,15 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import Util.generic as utl
-from Controllers.Controller_evento import control_evento
 class vista_evento():
 
-    def __init__(self, objeto, band):
+    def __init__(self, controller=None, band=None, objeto=None):
         self.window=tk.Tk()
         self.window.title("MUSICAL TOUR")
         utl.Centre_window(self.window,1300,620)
         self.window.config(bg="#e5e5e5")
         self.window.resizable(width=0, height=0)
-        self.controller=control_evento()
+        self.controller=controller
         self.evento=objeto
         self.band=band
         
@@ -22,16 +21,16 @@ class vista_evento():
         boton_volver=tk.Button(self.frame_supbar, text="Volver", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10, command=self.volver_atras)
         boton_volver.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        boton_inicio=tk.Button(self.frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10, command=self.controller.Volver_inicio)
+        boton_inicio=tk.Button(self.frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10) #command=self.controller.Volver_inicio
         boton_inicio.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        boton_Asistido=tk.Button(self.frame_supbar, text="Marcar como evento asistido", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=25, padx=10)
+        boton_Asistido=tk.Button(self.frame_supbar, text="Marcar como evento asistido", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=25, padx=10) #command=self.controller.marca_asistido
         boton_Asistido.pack(side="left",expand=tk.NO,padx=20, fill=tk.NONE)
 
         boton_cerrar_sesion=tk.Button(self.frame_supbar, text="Cerrar sesion", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=10, padx=10)
         boton_cerrar_sesion.pack(side="right",expand=tk.NO,padx=10, fill=tk.NONE)
 
-        boton_visualizar=tk.Button(self.frame_supbar, text="Visualizar en Mapa", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=20, padx=10)
+        boton_visualizar=tk.Button(self.frame_supbar, text="Visualizar en Mapa", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=20, padx=10) #self.controller.visualiza_ruta
         boton_visualizar.pack(side="right",anchor="center",expand=tk.NO,padx=50, fill=tk.NONE)
 
         boton_Agregar_R=tk.Button(self.frame_supbar, text="Agregar a Ruta", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=20, padx=10, command=self.agregar_ruta)

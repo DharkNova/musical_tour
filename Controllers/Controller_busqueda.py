@@ -4,6 +4,9 @@ class control_busqueda:
     def __init__(self, app):
         self.app=app
 
+    def volver(self):
+        self.app.vista_inicio()
+
     def buscar(self, texto):
        return Search.Busqueda(texto)
     

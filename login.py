@@ -1,45 +1,72 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
+from tkinter.font import BOLD
+import Util.generic as utl
+from Controllers.Controller_login import control_logueo
+import main
+from register import registro
 
-class window_inicio(tk.Frame):
+class vista_login:
 
-    def __init__(self, window=None, controller=None):
-        
-        super().__init__(window)
-        self.window=window
-        self.controller=controller
+    def __init__(self):
+        self.window=tk.Tk()
+        self.window.title("Inicio de sesión")
+        self.window.config(bg="red")
+        self.window.resizable(width=0,height=0)
+        self.controller=control_logueo()
+        utl.Centre_window(self.window,700,500)
 
-        #Frame de barra superior 
-        frame_supbar=tk.Frame(self.window, bd=0, height=40, relief=tk.SOLID, padx=10, pady=10, bg="#a1a892")
-        frame_supbar.pack(side="top", expand=tk.NO, fill=tk.X)
+        frame_logo=tk.Frame(self.window, bd=0,width=300, relief=tk.SOLID, bg="#2f242c")
+        frame_logo.pack(side="left",anchor="w", expand=tk.YES, fill=tk.Y)
+
+        logo=utl.redefine_imagen(".\\images\\logo.png", (300,300))
+        imafondo=tk.Label(frame_logo, image=logo, bg="#2f242c")
+        imafondo.image=logo
+        imafondo.place(x=0,y=0, relwidth=1, relheight=1)
+
+        frame_titulo=tk.Frame(self.window, bd=0, width=400, height=90, relief=tk.SOLID, bg="#a1a892")
+        frame_titulo.pack(side="top", anchor="n", expand=tk.NO, fill=tk.NONE)
+
+        Titulo=tk.Label(frame_titulo, text="Inicio de sesion",width=400, height=2,font=("times", 30), fg="#2f242c", bg="#a1a892")
+        Titulo.pack(anchor="center", expand=tk.NO, fill=tk.NONE)
+
+        frame_login=tk.Frame(self.window, height=400, width=400, bd=0, relief=tk.SOLID, bg="#e5e5e5")
+        frame_login.pack(expand=tk.YES, fill=tk.BOTH)
+
+        Correo=tk.Label(frame_login, text="Correo",font=("times", 12), fg="#2f242c", bg="#e5e5e5", anchor="w")
+        Correo.pack(anchor="center", fill=tk.X, padx=20, pady=10)
+        self.correo=ttk.Entry(frame_login, font=("times", 12))
+        self.correo.pack(fill=tk.X, padx=20, pady=10)
+
+        contraseña=tk.Label(frame_login, text="Contraseña",font=("times", 12), fg="#2f242c", bg="#e5e5e5", anchor="w")
+        contraseña.pack(anchor="center", fill=tk.X, padx=20, pady=10)
+        self.contraseña=ttk.Entry(frame_login, font=("times", 12))
+        self.contraseña.pack(fill=tk.X, padx=20, pady=10)
+        self.contraseña.config(show="*")
+
+        boton_inicio_sesion=tk.Button(frame_login,text="Iniciar Sesion", font=("times", 15, BOLD), fg="#e5e5e5", bg="#2f242c")
+        boton_inicio_sesion.pack(fill=tk.X, padx=20, pady=40)
+        boton_inicio_sesion.bind("<Return>", lambda event: "funcion inicio")
+
+        boton_registro=tk.Button(frame_login,text="Registrar Usuario", font=("times", 15), fg="#e5e5e5", bg="#2f242c")
+        boton_registro.pack(fill=tk.X, padx=20)
+
+        self.window.mainloop()
+
+    def iniciar_sesion(self):
+        correo=self.correo.get()
+        contra=self.contraseña.get()
+        user=self.controller.verifica_inicio(correo, contra)
+        if user is not None:
+            self.window.destroy()
+            main()
+
+    def registrar_usuario(self):
+        registro()
 
 
-        #Indice de eventos
-        opciones = ["Opción 1", "Opción 2", "Opción 3", "Opción 4"]
-        opcion_seleccionada = tk.StringVar()
-        opcion_seleccionada.set("ÍNDICE DE EVENTOS")
-        def combobox_on_select(event):
-            if opcion_seleccionada.get()=="ÍNDICE DE EVENTOS":
-                opcion_seleccionada.set("")
-        combobox = ttk.Combobox(frame_supbar, values=opciones, textvariable=opcion_seleccionada, width= 40, heigh=10)
-        combobox.bind("<<ComboboxSelected>>", combobox_on_select)
-        combobox.configure(background="#e6d884", foreground="#2f242c")
-        combobox.select_clear()
-        combobox.pack(side="left")
 
-        #Botones de barra superior
-        boton_historial=tk.Button(frame_supbar, text="Historial", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
-        boton_historial.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        boton_mapa=tk.Button(frame_supbar, text="Mapa", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
-        boton_mapa.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        boton_buscar=tk.Button(frame_supbar, text="Buscar", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
-        boton_buscar.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
-        
-        boton_cerrar_sesion=tk.Button(frame_supbar, text="Cerrar sesion", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=10, padx=5)
-        boton_cerrar_sesion.pack(side="right",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        #Frame de panel izquierdo de eventos 
-        frame_panel_izq=tk.Frame(self.window, bd=0, width=600, relief=tk.SOLID, padx=10, pady=10, bg="#2F242C")
-        frame_panel_izq.pack(side="left", expand=tk.NO, fill=tk.BOTH)
+

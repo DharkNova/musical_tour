@@ -4,6 +4,17 @@ class control_mapa:
             #self.eventos=eventos
             #self.app=app
             pass
+
+        def Volver_evento(self, id_ubi):
+            for i in self.eventos:
+                if i.id_position==id_ubi:
+                    self.app.vista_buscador(i)
+            pass
+
+        def Volver_inicio(self):
+            self.app.vista_inicio()
+            pass
+
         def compara_coords(self, coords):
             for ubi in self.ubicaciones:
                 if ubi.coordenas==coords:
@@ -36,6 +47,9 @@ class control_mapa:
             for id in self.app.ruta.destinations:
                 if id==id_ubi:
                     self.app.ruta.destinations.remove(id)
+
+        def limpia_lista(self):
+            self.app.ruta.destinations.clear()
 
                     
 
