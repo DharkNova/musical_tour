@@ -4,7 +4,7 @@ import Util.generic as utl
 from Controllers.Controller_evento import control_evento
 class vista_evento():
 
-    def __init__(self, objeto):
+    def __init__(self, objeto, band):
         self.window=tk.Tk()
         self.window.title("MUSICAL TOUR")
         utl.Centre_window(self.window,1300,620)
@@ -12,16 +12,17 @@ class vista_evento():
         self.window.resizable(width=0, height=0)
         self.controller=control_evento()
         self.evento=objeto
+        self.band=band
         
         
         #Frame de barra superior 
         self.frame_supbar=tk.Frame(self.window, bd=0, height=40, relief=tk.SOLID, padx=10, pady=10, bg="#2f242c")
         self.frame_supbar.pack(side="top", expand=tk.NO, fill=tk.X)
 
-        boton_volver=tk.Button(self.frame_supbar, text="Volver", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
+        boton_volver=tk.Button(self.frame_supbar, text="Volver", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10, command=self.volver_atras)
         boton_volver.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
-        boton_inicio=tk.Button(self.frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10)
+        boton_inicio=tk.Button(self.frame_supbar, text="Inicio", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=5, padx=10, command=self.controller.Volver_inicio)
         boton_inicio.pack(side="left",expand=tk.NO,padx=5, fill=tk.NONE)
 
         boton_Asistido=tk.Button(self.frame_supbar, text="Marcar como evento asistido", font=("Roboto, 13"), fg="#2f242c", bg="#e6d884", width=25, padx=10)
@@ -139,6 +140,12 @@ class vista_evento():
     def agregar_ruta(self):
         id_ubi=self.evento.id_position
         self.controller.Agregar_ruta(id_ubi)
+
+    def volver_atras(self):
+        if self.band==1:
+            self.controller.Volver_inicio()
+        else:
+            self.controller.Volver_busca()
 
 
 

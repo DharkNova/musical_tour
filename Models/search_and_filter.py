@@ -4,7 +4,7 @@ class Search:
 
     All_Events=Event.indice_eventos()
 
-    def Buscador(Nombre, Artista, Genero):
+    def Buscador(self, Nombre, Artista, Genero):
         resultados=set()
         for Eventos in Search.All_Events:
             if Nombre is not None:
@@ -23,7 +23,7 @@ class Search:
             return resultados
 
     @staticmethod
-    def Busqueda(para1=None ,para2=None, para3=None):
+    def Busqueda(self, para1=None ,para2=None, para3=None):
         if para1 is not None:
             Nombre=Search.determina_nombre(para1)
             Artista=Search.determina_artista(para1)
@@ -48,7 +48,7 @@ class Search:
         return Search.Buscador(Nombre, Artista, Genero)
 
     @staticmethod
-    def determina_nombre(parametro):
+    def determina_nombre(self,parametro):
         b=False
         for objeto in Search.All_Events:
             if objeto.name.lower()==parametro.lower():
@@ -58,7 +58,7 @@ class Search:
         else:
             return parametro
     @staticmethod
-    def determina_artista(parametro):
+    def determina_artista(self,parametro):
         b=False
         for objeto in Search.All_Events:
             if objeto.artist.lower()==parametro.lower():
@@ -68,7 +68,7 @@ class Search:
         else:
             return parametro
     @staticmethod
-    def determina_genero(parametro):
+    def determina_genero(self,parametro):
         b=False
         for objeto in Search.All_Events:
             if objeto.genre.lower()==parametro.lower():
@@ -77,4 +77,14 @@ class Search:
             return None
         else:
             return parametro
+
+    def filtra_hora(self, hora_ini, hora_fin, lista):
+        hora_ini_iso=Event.charge_time(hora_ini)
+        hora_fin_iso=Event.charge_time(hora_fin)
+        lista_filtrada=[]
+        for evento in lista:
+           if evento.time_start>=hora_ini_iso and evento.time_end<=hora_fin_iso:
+               lista_filtrada.append(evento)
+        return lista_filtrada       
+        
 

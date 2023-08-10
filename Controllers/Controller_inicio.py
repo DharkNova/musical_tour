@@ -21,9 +21,9 @@ class Control_inicio:
         # return lista
         pass
 
-    def cambia_evento(self, objeto):
+    def cambia_evento(self, objeto, band):
         pass
-        #self.app.vista_evento(objeto)
+        #self.app.vista_evento(objeto, band)
         
     def abrir_mapa():
         pass

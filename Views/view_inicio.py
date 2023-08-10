@@ -72,7 +72,8 @@ class Vista_inicio:
     def Combobox_select(self, event):
         objeto=self.buscar_evento(self.indice.current())
         self.window.destroy()
-        self.controller.cambia_evento(objeto)
+        band=1
+        self.controller.cambia_evento(objeto, band)
 
     def actualizar_eventos(self):
         #Lista=self.controller.obtiene_data()

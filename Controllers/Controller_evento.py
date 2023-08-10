@@ -4,16 +4,19 @@ class control_evento:
 
     def __init__(self, app):
         #self.app=app
-        
+        pass        
+    def Volver_busca(self):
+        self.app.vista_buscador()
         pass
-    def Volver():
+    def Volver_inicio(self):
+        self.app.vista_inicio()
         pass
     def Agregar_ruta(self, id_ubi):
         #self.app.control_mapa.agregar_a_ruta(id_ubi)
         pass
-    def Visualiza_ruta():
+    def Visualiza_ruta(self):
         pass
-    def cerrar_sesion():
+    def cerrar_sesion(self):
         pass
     def agrega_comentario(id_event, id_user, valora, animo, comentario):
         #Review.crea_review(id_event, id_user, valora, animo, comentario)
